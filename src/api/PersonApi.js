@@ -1,29 +1,29 @@
 const fetchPerson = () => {
-    return fetch('https://randomuser.me/api').then(x => x.json()).then(x => x.results[0]); 
-}; 
+    return fetch('https://randomuser.me/api').then(x => x.json()).then(x => x.results[0]);
+};
 
-const wrapPromise = (promise) => {
-    let status = 'pending'; 
+export const wrapPromise = (promise) => {
+    let status = 'pending';
     let result = '';
     let suspender = promise.then(r => {
-        status = 'success'; 
+        status = 'success';
         result = r;
-    }, e => { 
-        status = 'error'; 
-        result = e; 
-    }) 
+    }, e => {
+        status = 'error';
+        result = e;
+    })
 
     return {
         read(){
             if (status === 'pending'){
-                throw suspender; 
+                throw suspender;
             } else if (status === 'error'){
-                throw result; 
+                throw result;
             }
-            return result; 
+            return result;
         }
     }
-} 
+}
 
 export const createResource = () => {
     return {
